@@ -8,10 +8,13 @@ export default {
   ],
   theme: {
     extend: {
-      // colors: {
-      //   background: "var(--background)",
-      //   foreground: "var(--foreground)",
-      // },
+      colors: {
+        "tosca-green": "#4FB3B3", // Hijau Tosca dari background gunung
+        "sakura-pink": "#F8BBD0", // Pink Sakura dari bunga
+        "mountain-dark": "#2A4A4A", // Hijau gelap dari gunung
+        "text-black": "#000000", // Hitam untuk heading
+        "white": "#FFFFFF", // Putih untuk teks
+      },
     },
   },
   plugins: [],
