@@ -1,74 +1,134 @@
+// "use client" directive ensures this is a React Client Component
 "use client";
 
-import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+interface Event {
+    id: number;
+    nama_event: string;
+    deskripsi: string;
+    lokasi: string;
+    tanggal_waktu: string; // Format ISO string untuk datetime
+    created_at: string; // Timestamp dari Supabase
+  }
+  
+export default function EventsPage() {
+    const [events, setEvents] = useState<Event[]>([]);
+    const [newEvent, setNewEvent] = useState({
+    nama_event: "",
+    deskripsi: "",
+    lokasi: "",
+    tanggal_waktu: "",
+    });
+    const [error, setError] = useState("");
 
-export default function AdminLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
+    const fetchEvents = async () => {
+        try {
+        setError("");
+        const { data } = await axios.get("/api/events");
+        setEvents(data);
+        } catch (err) {
+        setError("Error fetching events: " + err.message);
+        }
+    };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+    // Run fetchEvents when the component mounts
+    useEffect(() => {
+        fetchEvents();
+    }, []); // Empty dependency array ensures it runs once when the page loads
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      setError("Invalid login credentials");
-    } else {
-      router.push("/admin");
-    }
-  };
+    const addEvent = async () => {
+        const { nama_event, deskripsi, lokasi, tanggal_waktu } = newEvent;
+      
+        if (!nama_event || !deskripsi || !lokasi || !tanggal_waktu) {
+          setError("All fields are required!");
+          return;
+        }
+      
+        try {
+          await axios.post("/api/events", newEvent);
+          setNewEvent({ nama_event: "", deskripsi: "", lokasi: "", tanggal_waktu: "" });
+          fetchEvents();
+        } catch (err) {
+          console.error("Error adding event:", err);
+          setError("Failed to add event.");
+        }
+    };
+      
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-8 rounded-md shadow-md w-full max-w-sm"
-      >
-        <h1 className="text-2xl font-bold mb-6">Admin Login</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+    const deleteEvent = async (id: number) => {
+        try {
+        setError("");
+        await axios.delete("/api/events", { data: { id } });
+        fetchEvents();
+        } catch (err) {
+        setError("Error deleting event: " + err.message);
+        }
+    };
+
+    return (
+        <div className="container mx-auto mt-5">
+        <h1 className="text-2xl font-bold mb-4">Manage Events</h1>
+    
+        {/* Error Handling */}
+        {error && <div className="text-red-500">{error}</div>}
+    
+        {/* Input Form */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full p-2 border rounded-md"
-          />
+            <input
+            type="text"
+            placeholder="Nama Event"
+            value={newEvent.nama_event}
+            onChange={(e) => setNewEvent({ ...newEvent, nama_event: e.target.value })}
+            className="border p-2 m-2"
+            />
+            <input
+            type="text"
+            placeholder="Deskripsi"
+            value={newEvent.deskripsi}
+            onChange={(e) => setNewEvent({ ...newEvent, deskripsi: e.target.value })}
+            className="border p-2 m-2"
+            />
+            <input
+            type="text"
+            placeholder="Lokasi"
+            value={newEvent.lokasi}
+            onChange={(e) => setNewEvent({ ...newEvent, lokasi: e.target.value })}
+            className="border p-2 m-2"
+            />
+            <input
+            type="datetime-local"
+            value={newEvent.tanggal_waktu}
+            onChange={(e) => setNewEvent({ ...newEvent, tanggal_waktu: e.target.value })}
+            className="border p-2 m-2"
+            />
+            <button onClick={addEvent} className="bg-blue-500 text-white p-2 rounded">
+            Add Event
+            </button>
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full p-2 border rounded-md"
-          />
+    
+        {/* List Events */}
+        <ul>
+            {events.map((event: any) => (
+            <li key={event.id} className="border p-2 m-2">
+                <h2 className="text-xl font-bold">{event.nama_event}</h2>
+                <p>{event.deskripsi}</p>
+                <p>Lokasi: {event.lokasi}</p>
+                <p>
+                Tanggal/Waktu:{" "}
+                {new Date(event.tanggal_waktu).toLocaleString()}
+                </p>
+                <button
+                onClick={() => deleteEvent(event.id)}
+                className="bg-red-500 text-white p-1 rounded mt-2"
+                >
+                Delete
+                </button>
+            </li>
+            ))}
+        </ul>
         </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md"
-        >
-          Login
-        </button>
-      </form>
-    </div>
-  );
+    );
 }

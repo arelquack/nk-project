@@ -6,19 +6,45 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-// Get all members
-export async function GET() {
-  const { data, error } = await supabase.from("new_members").select("*");
+// Get all members with pagination
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const limit = parseInt(searchParams.get("limit") || "10"); // default 10
+  const offset = parseInt(searchParams.get("offset") || "0"); // default 0
+
+  const { data, error } = await supabase
+    .from("new_members")
+    .select("*")
+    .range(offset, offset + limit - 1);
+
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json(data);
 }
 
 // Add new member
-export async function POST(req: Request) {
-  const body = await req.json();
-  const { data, error } = await supabase.from("new_members").insert([body]);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data, { status: 201 });
+export async function POST(request: Request) {
+  try {
+    const body = await request.json(); // Parse data dari body
+    const { full_name, grade, email } = body;
+
+    // Validasi data
+    if (!full_name || !grade || !email) {
+      return NextResponse.json({ error: "All fields are required." }, { status: 400 });
+    }
+
+    // Masukkan data ke tabel new_members di Supabase
+    const { data, error } = await supabase.from("new_members").insert([
+      { full_name, grade, email },
+    ]);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return NextResponse.json({ message: "New member added successfully.", data });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
 
 // Update member
