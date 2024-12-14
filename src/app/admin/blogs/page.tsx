@@ -49,6 +49,7 @@ export default function BlogsPage() {
       setNewBlog({ title: "", description: "", content: "", author: "" });
       fetchBlogs();
     } catch (err) {
+      console.error("Error adding blog:", err);
       setError("Failed to add blog.");
     }
   };
@@ -74,21 +75,21 @@ export default function BlogsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Blogs</h1>
+      <h1 className="text-2xl font-bold mb-4 text-black">Blogs</h1>
       <div className="mb-4 grid grid-cols-1 gap-4 max-w-3xl mx-auto">
         <input
           type="text"
           placeholder="Title"
           value={newBlog.title}
           onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-black"
         />
         <input
           type="text"
           placeholder="Author"
           value={newBlog.author}
           onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })}
-          className="border p-2 w-full"
+          className="border p-2 w-full text-black"
         />
         <input
           type="text"
@@ -97,13 +98,13 @@ export default function BlogsPage() {
           onChange={(e) =>
             setNewBlog({ ...newBlog, description: e.target.value })
           }
-          className="border p-2 w-full"
+          className="border p-2 w-full text-black"
         />
         <textarea
           placeholder="Content"
           value={newBlog.content}
           onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
-          className="border p-2 w-full h-40"
+          className="border p-2 w-full h-40 text-black"
         ></textarea>
         <button onClick={addBlog} className="bg-blue-500 text-white px-4 py-2 w-full">
           Add Blog
@@ -113,18 +114,18 @@ export default function BlogsPage() {
       <table className="w-full border mt-6">
         <thead>
           <tr>
-            <th className="border px-4 py-2">Title</th>
-            <th className="border px-4 py-2">Description</th>
-            <th className="border px-4 py-2">Author</th>
-            <th className="border px-4 py-2">Actions</th>
+            <th className="border px-4 py-2 text-black">Title</th>
+            <th className="border px-4 py-2 text-black">Description</th>
+            <th className="border px-4 py-2 text-black">Author</th>
+            <th className="border px-4 py-2 text-black">Actions</th>
           </tr>
         </thead>
         <tbody>
           {blogs.map((blog) => (
             <tr key={blog.id}>
-              <td className="border px-4 py-2">{blog.title}</td>
-              <td className="border px-4 py-2">{blog.description}</td>
-              <td className="border px-4 py-2">{blog.author}</td>
+              <td className="border px-4 py-2 text-black">{blog.title}</td>
+              <td className="border px-4 py-2 text-black">{blog.description}</td>
+              <td className="border px-4 py-2 text-black">{blog.author}</td>
               <td className="border px-4 py-2">
                 <button
                   onClick={() => deleteBlog(blog.id)}

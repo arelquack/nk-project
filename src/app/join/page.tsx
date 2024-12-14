@@ -28,7 +28,7 @@ const JoinUs: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const { data, error } = await supabase.from("new_members").insert([
+    const { error } = await supabase.from("new_members").insert([
       {
         full_name: formData.fullName,
         grade: formData.grade,
@@ -48,21 +48,21 @@ const JoinUs: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-sakura-pink px-6 py-12">
-      <h1 className="text-4xl font-bold text-mountain-dark mb-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 py-12">
+      <h1 className="text-4xl font-extrabold text-mountain-dark mb-8 drop-shadow-md">
         Daftar Nihongo Kurabu
       </h1>
       {successMessage && (
-        <div className="bg-mountain-dark text-white px-6 py-4 mb-6 rounded-md">
+        <div className="bg-mountain-dark text-white px-6 py-4 mb-6 rounded-lg shadow-lg">
           {successMessage}
         </div>
       )}
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md"
+        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg transition-transform transform hover:shadow-2xl hover:scale-105"
       >
-        <div className="mb-4">
-          <label htmlFor="fullName" className="block text-sm font-medium">
+        <div className="mb-6">
+          <label htmlFor="fullName" className="block text-sm font-medium text-mountain-dark">
             Nama Lengkap
           </label>
           <input
@@ -72,11 +72,11 @@ const JoinUs: React.FC = () => {
             value={formData.fullName}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded-md"
+            className="w-full mt-2 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-sakura-pink text-black"
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="grade" className="block text-sm font-medium">
+        <div className="mb-6">
+          <label htmlFor="grade" className="block text-sm font-medium text-mountain-dark">
             Kelas
           </label>
           <input
@@ -86,11 +86,11 @@ const JoinUs: React.FC = () => {
             value={formData.grade}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded-md"
+            className="w-full mt-2 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-sakura-pink text-black"
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium">
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-sm font-medium text-mountain-dark">
             Email
           </label>
           <input
@@ -100,11 +100,11 @@ const JoinUs: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded-md"
+            className="w-full mt-2 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-sakura-pink text-black"
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="motivation" className="block text-sm font-medium">
+        <div className="mb-6">
+          <label htmlFor="motivation" className="block text-sm font-medium text-mountain-dark">
             Motivasi
           </label>
           <textarea
@@ -113,12 +113,12 @@ const JoinUs: React.FC = () => {
             value={formData.motivation}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-2 border rounded-md"
+            className="w-full mt-2 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-sakura-pink text-black"
           ></textarea>
         </div>
         <button
           type="submit"
-          className="w-full px-4 py-2 bg-mountain-dark text-white rounded-md"
+          className="w-full px-6 py-3 bg-mountain-dark text-white font-semibold rounded-md shadow-lg hover:bg-sakura-pink hover:text-text-black focus:outline-none focus:ring-2 focus:ring-mountain-dark disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Mendaftarkan..." : "Daftar"}

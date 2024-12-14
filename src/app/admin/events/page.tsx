@@ -11,8 +11,8 @@ interface Event {
     lokasi: string;
     tanggal_waktu: string; // Format ISO string untuk datetime
     created_at: string; // Timestamp dari Supabase
-  }
-  
+}
+
 export default function EventsPage() {
     const [events, setEvents] = useState<Event[]>([]);
     const [newEvent, setNewEvent] = useState({
@@ -29,7 +29,7 @@ export default function EventsPage() {
         const { data } = await axios.get("/api/events");
         setEvents(data);
         } catch (err) {
-        setError("Error fetching events: " + err.message);
+        setError("Error fetching events: " + err);
         }
     };
 
@@ -41,22 +41,21 @@ export default function EventsPage() {
 
     const addEvent = async () => {
         const { nama_event, deskripsi, lokasi, tanggal_waktu } = newEvent;
-      
         if (!nama_event || !deskripsi || !lokasi || !tanggal_waktu) {
-          setError("All fields are required!");
-          return;
+            setError("All fields are required!");
+            return;
         }
-      
+        
         try {
-          await axios.post("/api/events", newEvent);
-          setNewEvent({ nama_event: "", deskripsi: "", lokasi: "", tanggal_waktu: "" });
-          fetchEvents();
+            await axios.post("/api/events", newEvent);
+            setNewEvent({ nama_event: "", deskripsi: "", lokasi: "", tanggal_waktu: "" });
+            fetchEvents();
         } catch (err) {
-          console.error("Error adding event:", err);
-          setError("Failed to add event.");
+            console.error("Error adding event:", err);
+            setError("Failed to add event.");
         }
     };
-      
+
 
     const deleteEvent = async (id: number) => {
         try {
@@ -64,13 +63,13 @@ export default function EventsPage() {
         await axios.delete("/api/events", { data: { id } });
         fetchEvents();
         } catch (err) {
-        setError("Error deleting event: " + err.message);
+        setError("Error deleting event: " + err);
         }
     };
 
     return (
         <div className="container mx-auto mt-5">
-        <h1 className="text-2xl font-bold mb-4">Manage Events</h1>
+        <h1 className="text-black text-2xl font-bold mb-4">Manage Events</h1>
     
         {/* Error Handling */}
         {error && <div className="text-red-500">{error}</div>}
@@ -111,12 +110,12 @@ export default function EventsPage() {
     
         {/* List Events */}
         <ul>
-            {events.map((event: any) => (
+            {events.map((event) => (
             <li key={event.id} className="border p-2 m-2">
-                <h2 className="text-xl font-bold">{event.nama_event}</h2>
-                <p>{event.deskripsi}</p>
-                <p>Lokasi: {event.lokasi}</p>
-                <p>
+                <h2 className="text-black text-xl font-bold">{event.nama_event}</h2>
+                <p className="text-black">{event.deskripsi}</p>
+                <p className="text-black">Lokasi: {event.lokasi}</p>
+                <p className="text-black">
                 Tanggal/Waktu:{" "}
                 {new Date(event.tanggal_waktu).toLocaleString()}
                 </p>

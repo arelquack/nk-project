@@ -42,8 +42,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ message: "New member added successfully.", data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 

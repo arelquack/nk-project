@@ -42,8 +42,8 @@ export default function MembersPage() {
       await axios.post("/api/members", newMember);
       setNewMember({ full_name: "", grade: "", email: "" });
       fetchMembers();
-    } catch (err: any) {
-      console.log("Error adding member:", err.response?.data || err.message);
+    } catch (err) {
+      console.log("Error adding member:", err);
       setError("Failed to add member");
     }
   };
@@ -53,6 +53,7 @@ export default function MembersPage() {
       await axios.delete("/api/members", { data: { id } });
       fetchMembers();
     } catch (err) {
+      console.error("Error deleting member:", err);
       setError("Failed to delete member");
     }
   };
@@ -80,28 +81,28 @@ export default function MembersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Members</h1>
+      <h1 className="text-2xl font-bold mb-4 text-black">Members</h1>
       <div className="mb-4">
         <input
           type="text"
           placeholder="Name"
           value={newMember.full_name}
           onChange={(e) => setNewMember({ ...newMember, full_name: e.target.value })}
-          className="border p-2 mr-2"
+          className="border p-2 mr-2 text-black"
         />
         <input
           type="text"
           placeholder="Grade"
           value={newMember.grade}
           onChange={(e) => setNewMember({ ...newMember, grade: e.target.value })}
-          className="border p-2 mr-2"
+          className="border p-2 mr-2 text-black"
         />
         <input
           type="email"
           placeholder="Email"
           value={newMember.email}
           onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
-          className="border p-2 mr-2"
+          className="border p-2 mr-2 text-black"
         />
         {editMember ? (
           <button onClick={updateMember} className="bg-green-500 text-white px-4 py-2">
@@ -117,18 +118,18 @@ export default function MembersPage() {
       <table className="w-full border">
         <thead className="sticky top-0 bg-white shadow">
           <tr>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Grade</th>
-            <th className="border px-4 py-2">Email</th>
-            <th className="border px-4 py-2">Actions</th>
+            <th className="border px-4 py-2 text-black">Name</th>
+            <th className="border px-4 py-2 text-black">Grade</th>
+            <th className="border px-4 py-2 text-black">Email</th>
+            <th className="border px-4 py-2 text-black">Actions</th>
           </tr>
         </thead>
         <tbody>
           {members.map((member) => (
             <tr key={member.id}>
-              <td className="border px-4 py-2">{member.full_name}</td>
-              <td className="border px-4 py-2">{member.grade}</td>
-              <td className="border px-4 py-2">{member.email}</td>
+              <td className="border px-4 py-2 text-black">{member.full_name}</td>
+              <td className="border px-4 py-2 text-black">{member.grade}</td>
+              <td className="border px-4 py-2 text-black">{member.email}</td>
               <td className="border px-4 py-2">
                 <button
                   onClick={() => deleteMember(member.id)}
@@ -155,7 +156,7 @@ export default function MembersPage() {
       >
         Previous
       </button>
-      <span>Page {page}</span>
+      <span className="text-black">Page {page}</span>
       <button onClick={nextPage} className="bg-gray-500 text-white px-4 py-2">
         Next
       </button>
