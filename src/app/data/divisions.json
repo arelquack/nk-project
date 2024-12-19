@@ -1,0 +1,48 @@
+[
+    {
+      "id": 1,
+      "name": "Kana（かな）",
+      "description": "Belajar hiragana, katakana, dan kanji sambil memperkaya kosakata Jepang buat sehari-hari."
+    },
+    {
+      "id": 2,
+      "name": "Shoudou（書道）",
+      "description": "Jelajahi keindahan seni kaligrafi Jepang. Setiap goresan punya cerita!"
+    },
+    {
+      "id": 3,
+      "name": "Sakubun（作文）",
+      "description": "Tulis karangan bahasa Jepang yang keren sesuai kaidah kebahasaan. Kreativitasmu, gayamu!"
+    },
+    {
+      "id": 4,
+      "name": "Mini Drama（ミニドラマ）",
+      "description": "Seru-seruan main peran pakai bahasa Jepang. Aktor masa depan? Mulai dari sini!"
+    },
+    {
+      "id": 5,
+      "name": "Roudoku（朗読）",
+      "description": "Hidupkan cerita Jepang dengan intonasi, ekspresi, dan gestur yang bikin audiens terpukau."
+    },
+    {
+      "id": 6,
+      "name": "Speech（スピーチ）",
+      "description": "Berani tampil? Asah kemampuan berpidato dalam bahasa Jepang yang komunikatif dan memukau."
+    },
+    {
+      "id": 7,
+      "name": "Akustik（アコースティック）",
+      "description": "Kolaborasi suara dan musik. Nyanyikan lagu-lagu Jepang favoritmu di sini!"
+    },
+    {
+      "id": 8,
+      "name": "Origami（折り紙）",
+      "description": "Seni lipat kertas ala Jepang. Dari kertas biasa jadi karya luar biasa!"
+    },
+    {
+      "id": 9,
+      "name": "Anime（アニメ）",
+      "description": "Tunjukkan bakat menggambarmu dengan karakter khas animasi Jepang yang kece abis!"
+    }
+]
+  

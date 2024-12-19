@@ -1,10 +1,9 @@
-// "use client" directive ensures this is a React Client Component
 "use client";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-interface Event {
+export interface Event {
     id: number;
     nama_event: string;
     deskripsi: string;
@@ -81,27 +80,27 @@ export default function EventsPage() {
             placeholder="Nama Event"
             value={newEvent.nama_event}
             onChange={(e) => setNewEvent({ ...newEvent, nama_event: e.target.value })}
-            className="border p-2 m-2"
+            className="border p-2 m-2 text-black"
             />
             <input
             type="text"
             placeholder="Deskripsi"
             value={newEvent.deskripsi}
             onChange={(e) => setNewEvent({ ...newEvent, deskripsi: e.target.value })}
-            className="border p-2 m-2"
+            className="border p-2 m-2 text-black"
             />
             <input
             type="text"
             placeholder="Lokasi"
             value={newEvent.lokasi}
             onChange={(e) => setNewEvent({ ...newEvent, lokasi: e.target.value })}
-            className="border p-2 m-2"
+            className="border p-2 m-2 text-black"
             />
             <input
             type="datetime-local"
             value={newEvent.tanggal_waktu}
             onChange={(e) => setNewEvent({ ...newEvent, tanggal_waktu: e.target.value })}
-            className="border p-2 m-2"
+            className="border p-2 m-2 text-black"
             />
             <button onClick={addEvent} className="bg-blue-500 text-white p-2 rounded">
             Add Event

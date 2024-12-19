@@ -1,12 +1,56 @@
+"use client";
+
+import { Blog } from "../app/admin/blogs/page"; 
+import { Event } from "../app/admin/events/page";
 import React from "react";
+import { useState, useEffect } from "react";
+import divisionsData from "../app/data/divisions.json";
+import supabase from "../utils/supabaseClient";
 
 const Home: React.FC = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    // Ambil data events dari Supabase saat komponen pertama kali dimuat
+    const fetchEvents = async () => {
+      const { data, error } = await supabase
+        .from('events') // Nama table di Supabase
+        .select('*'); // Ambil semua kolom
+
+      if (error) {
+        console.error('Error fetching events:', error.message);
+      } else {
+        setEvents(data || []);
+      }
+    };
+
+    fetchEvents();
+  }, []); // Dependency array kosong artinya hanya dipanggil sekali
+
+  useEffect(() => {
+    // Ambil data blog dari Supabase saat komponen pertama kali dimuat
+    const fetchBlogs = async () => {
+      const { data, error } = await supabase
+      .from('blogs') // Nama table di Supabase
+      .select('*'); // Ambil semua kolom
+
+      if (error) {
+        console.error('Error fetching blogs:', error.message);
+      } else {
+        setBlogs(data || []);
+      }
+    };
+
+    fetchBlogs();
+  }, []); // Dependency array kosong artinya hanya dipanggil sekali
+
   return (
     <div className="scroll-smooth font-sans">
       {/* Header */}
       <header className="fixed top-0 w-full p-4 bg-white text-text-black shadow-md z-10 transition-transform duration-300 ease-in-out hover:shadow-lg">
         <div className="flex justify-between items-center max-w-7xl mx-auto">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wide">Nihongo Kurabu</h1>
+          <h1 className="text-mountain-dark text-2xl md:text-3xl font-bold tracking-wide">Nihongo Kurabu</h1>
           <nav>
             <ul className="flex gap-4 md:gap-6">
               {[
@@ -19,7 +63,7 @@ const Home: React.FC = () => {
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="hover:text-mountain-dark transition-colors duration-200 underline-offset-4 hover:underline"
+                    className="hover:text-mountain-dark transition-colors duration-200 underline-offset-4 hover:underline hover:text-sakura-pink"
                   >
                     {link.label}
                   </a>
@@ -50,7 +94,7 @@ const Home: React.FC = () => {
         </a>
       </section>
 
-      {/* Upcoming Events */}
+      {/* Upcoming Events Section */}
       <section
         id="activities"
         className="min-h-screen flex flex-col items-center justify-center bg-white text-text-black px-6 lg:px-16 py-16"
@@ -59,55 +103,35 @@ const Home: React.FC = () => {
           Aktivitas Mendatang
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            {
-              title: "Workshop Kaligrafi",
-              date: "15 Desember 2024",
-              location: "Aula SMAN 3 Bukittinggi",
-              description: "Pelajari seni menulis huruf Jepang dengan instruktur berpengalaman."
-            },
-            {
-              title: "Festival Budaya",
-              date: "20 Januari 2025",
-              location: "Lapangan Sekolah",
-              description: "Nikmati makanan Jepang, cosplay, dan pertunjukan seni."
-            },
-            {
-              title: "Kelas Bahasa Jepang",
-              date: "25 Februari 2025",
-              location: "Ruang 103",
-              description: "Tingkatkan kemampuan berbicara Jepang dengan guru native."
-            }
-          ].map((event, index) => (
+          {events.map((event) => (
             <div
-              key={index}
+              key={event.id}
               className="bg-sakura-pink rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105"
             >
-              <h4 className="text-xl font-bold mb-2">{event.title}</h4>
+              <h4 className="text-xl font-bold mb-2">{event.nama_event}</h4>
               <p className="text-sm text-gray-700 mb-4">
-                Tanggal: {event.date} | Lokasi: {event.location}
+                Tanggal: {event.tanggal_waktu} | Lokasi: {event.lokasi}
               </p>
-              <p className="text-sm text-gray-600">{event.description}</p>
+              <p className="text-sm text-gray-600">{event.deskripsi}</p>
             </div>
           ))}
         </div>
       </section>
 
-
       {/* Divisions Section */}
       <section
-        id="divisions"
-        className="min-h-screen flex flex-col items-center justify-center bg-mountain-dark text-white px-6 lg:px-16 py-16"
+      id="divisions"
+      className="min-h-screen flex flex-col items-center justify-center bg-mountain-dark text-white px-6 lg:px-16 py-16"
       >
         <h3 className="text-3xl md:text-4xl font-bold text-center text-white mb-10">Divisi</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(9)].map((_, index) => (
+          {divisionsData.map((division) => (
             <div
-              key={index}
+              key={division.id}
               className="bg-white text-text-black rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105 text-center"
             >
-              <h4 className="text-xl font-bold mb-2">Divisi {index + 1}</h4>
-              <p className="text-sm text-gray-700">Deskripsi singkat tentang divisi ini.</p>
+              <h4 className="text-xl font-bold mb-2">{division.name}</h4>
+              <p className="text-sm text-gray-700">{division.description}</p>
             </div>
           ))}
         </div>
@@ -122,13 +146,13 @@ const Home: React.FC = () => {
           Artikel Terbaru
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(9)].map((_, index) => (
+          {blogs.map((blog) => (
             <div
-              key={index}
+              key={blog.id}
               className="bg-sakura-pink rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105 text-center"
             >
-              <h4 className="text-xl font-bold mb-2">Artikel {index + 1}</h4>
-              <p className="text-sm text-gray-700">Ringkasan singkat dari artikel ini.</p>
+              <h4 className="text-xl font-bold mb-2">{blog.title}</h4>
+              <p className="text-sm text-gray-700">{blog.description}</p>
               <a
                 href="#"
                 className="mt-4 inline-block text-mountain-dark underline hover:text-mountain-dark-darker"
@@ -157,6 +181,12 @@ const Home: React.FC = () => {
           Daftar Sekarang
         </a>
       </section>
+
+      <footer>
+        <div className="bg-white text-mountain-dark p-6 text-center">
+          <p>&copy; 2025 Nihongo Kurabu SMANTITEL. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };
