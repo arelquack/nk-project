@@ -3,8 +3,10 @@ import React from "react";
 const Header: React.FC = () => {
     const navLinks = [
         { href: "#hero", label: "Home" },
+        { href: "#about-us", label: "Tentang" },
         { href: "#activities", label: "Aktivitas" },
         { href: "#divisions", label: "Divisi" },
+        { href: "#gallery", label: "Galeri" },
         { href: "#articles", label: "Artikel" },
         { href: "#join", label: "Bergabung" },
     ];
