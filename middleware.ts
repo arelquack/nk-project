@@ -7,16 +7,20 @@ export async function middleware(req: Request) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const accessToken = req.headers.get("Authorization")?.replace("Bearer ", "");
-  if (!accessToken) {
+  // Mendapatkan session dari cookies
+  const { data: { session } } = await supabase.auth.getSession();
+
+  // Mengecek apakah session ada
+  if (!session) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
-  const { data: user, error } = await supabase.auth.getUser(accessToken);
-  if (error || !user || user.user_metadata?.role !== "admin") {
+  // Jika user tidak login atau bukan admin, redirect ke login
+  if (session.user?.user_metadata?.role !== "admin") {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
+  // Lanjutkan ke halaman jika sudah terverifikasi
   return NextResponse.next();
 }
 
