@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "@/app/components/dashboard/Header";
 
 export interface Event {
     id: number;
@@ -68,13 +69,13 @@ export default function EventsPage() {
 
     return (
         <div className="container mx-auto mt-5">
-        <h1 className="text-black text-2xl font-bold mb-4">Manage Events</h1>
+        <Header title="Acara" />
     
         {/* Error Handling */}
         {error && <div className="text-red-500">{error}</div>}
     
         {/* Input Form */}
-        <div className="mb-4">
+        <div className="mb-4 mt-2">
             <input
             type="text"
             placeholder="Nama Event"

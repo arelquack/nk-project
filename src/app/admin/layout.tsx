@@ -1,4 +1,5 @@
-import { FaUserFriends, FaBlog, FaCalendarAlt } from "react-icons/fa";
+import { FaUserFriends, FaBlog, FaCalendarAlt, FaHome, FaAward } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -6,26 +7,47 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="w-64 bg-mountain-dark text-white shadow-lg">
         <nav className="flex flex-col p-6 space-y-4">
+          <a 
+            href="/admin" 
+            className="flex items-center gap-3 hover:bg-gray-600 p-3 rounded-md transition duration-200"
+          >
+            <FaHome /> 
+            <span>Dashboard</span>
+          </a>
           <a
             href="/admin/members"
             className="flex items-center gap-3 hover:bg-gray-600 p-3 rounded-md transition duration-200"
           >
             <FaUserFriends />
-            <span>Members</span>
+            <span>Anggota</span>
+          </a>
+          <a 
+            href="#" 
+            className="flex items-center gap-3 hover:bg-gray-600 p-3 rounded-md transition duration-200"
+          >
+            <FaAward /> 
+            <span>Prestasi</span>
           </a>
           <a
             href="/admin/blogs"
             className="flex items-center gap-3 hover:bg-gray-600 p-3 rounded-md transition duration-200"
           >
             <FaBlog />
-            <span>Blogs</span>
+            <span>Artikel</span>
           </a>
           <a
             href="/admin/events"
             className="flex items-center gap-3 hover:bg-gray-600 p-3 rounded-md transition duration-200"
           >
             <FaCalendarAlt />
-            <span>Events</span>
+            <span>Acara</span>
+          </a>
+          <a 
+            href="#" 
+            className="flex items-center gap-3 hover:bg-gray-600 p-3 rounded-md transition duration-200"
+          >
+            <FiSettings /> 
+            <span>Pengaturan</span>
           </a>
         </nav>
       </aside>

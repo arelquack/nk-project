@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "@/app/components/dashboard/Header";
 
 export interface Blog {
   id: number;
@@ -75,8 +76,8 @@ export default function BlogsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4 text-black">Blogs</h1>
-      <div className="mb-4 grid grid-cols-1 gap-4 max-w-3xl mx-auto">
+      <Header title="Artikel" />
+      <div className="mb-4 mt-4 grid grid-cols-1 gap-4 max-w-3xl mx-auto">
         <input
           type="text"
           placeholder="Title"
