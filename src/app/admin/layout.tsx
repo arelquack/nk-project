@@ -1,7 +1,16 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { FaUserFriends, FaBlog, FaCalendarAlt, FaHome, FaAward } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
