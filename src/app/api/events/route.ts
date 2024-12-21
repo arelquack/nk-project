@@ -15,7 +15,7 @@ export async function GET() {
       return NextResponse.json(data, { status: 200 });
     } catch (err) {
       return NextResponse.json(
-        { error: `Failed to fetch events: ${err.message}` },
+        { error: `Failed to fetch events: ${(err as Error).message}` },
         { status: 500 }
       );
     }
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   
       return NextResponse.json(data, { status: 201 });
     } catch (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }
 
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Event deleted successfully!" }, { status: 200 });
     } catch (err) {
       return NextResponse.json(
-        { error: `Failed to delete event: ${err.message}` },
+        { error: `Failed to delete event: ${(err as Error).message}` },
         { status: 500 }
       );
     }
