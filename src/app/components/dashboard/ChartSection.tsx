@@ -4,6 +4,7 @@ import {
     Chart as ChartJS,
     ArcElement,
     LineElement,
+    PieController,
     PointElement,
     Tooltip,
     Legend,
@@ -11,7 +12,7 @@ import {
     LinearScale
 } from "chart.js";
 
-ChartJS.register(ArcElement, LineElement, PointElement, Tooltip, Legend, CategoryScale, LinearScale);
+ChartJS.register(ArcElement, LineElement, PieController, PointElement, Tooltip, Legend, CategoryScale, LinearScale);
 
 interface ChartSectionProps {
     title: string;
