@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import Header from "@/app/components/dashboard/Header";
 
@@ -20,7 +20,7 @@ export default function MembersPage() {
   const limit = 10;
 
   
-  const fetchMembers = async () => {
+  const fetchMembers = useCallback(async () => {
     try {
       const offset = (page - 1) * limit;
       const { data } = await axios.get(`/api/members?offset=${offset}&limit=${limit}`);
@@ -29,11 +29,11 @@ export default function MembersPage() {
       console.log("Error fetching members:", err);
       setError("Failed to fetch members.");
     }
-  };
+  }, [page, limit]);
   
   useEffect(() => {
     fetchMembers();
-  }, [page]);
+  }, [fetchMembers]);
 
   const nextPage = () => setPage((prev) => prev + 1);
   const prevPage = () => setPage((prev) => Math.max(prev - 1, 1));

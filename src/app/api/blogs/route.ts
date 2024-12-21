@@ -12,7 +12,8 @@ export async function GET() {
     if (error) throw error;
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -25,14 +26,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "All fields are required!" }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("blogs")
       .insert([{ title, description, content, author }]);
 
     if (error) throw error;
-    return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -46,6 +47,7 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ message: "Blog deleted successfully" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
